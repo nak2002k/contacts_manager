@@ -23,6 +23,12 @@ const AddContact = () => {
             return toast.error("This number already Exists!");
     
         }
+        const data={
+            id: contacts[contacts.lenght -1].id+1,
+            name,
+            email,
+            number,
+        }
     }
     
   return <div className='container'>
