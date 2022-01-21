@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const AddContact = () => {
@@ -8,10 +9,13 @@ const AddContact = () => {
     const[number,setNumber] = useState("");
    
     const contacts = useSelector((state)=>state);
-    const checkEmail=contacts.find(contact=> contact.email===email &&email);
-    const checkNumber=contacts.find(contact=> contact.number===parseInt(number) );
+    const dispatch = useDispatch();
+    const history = useNavigate()
+   
     const handleSubmit = (e)=>{
         e.preventDefault();
+        const checkEmail=contacts.find(contact=> contact.email===email &&email);
+        const checkNumber=contacts.find(contact=> contact.number===parseInt(number) );
         if (!email || !number || !name){
             return toast.warning("Please fill in all details")
         }
@@ -24,11 +28,15 @@ const AddContact = () => {
     
         }
         const data={
-            id: contacts[contacts.lenght -1].id+1,
+            id: contacts[contacts.length -1].id+1,
             name,
             email,
             number,
         }
+       dispatch({type:"ADD_CONTACT",payload:data});
+       toast.success("Contact added Successfully!")
+       history ("/")
+       
     }
     
   return <div className='container'>
